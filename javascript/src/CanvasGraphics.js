@@ -12,11 +12,12 @@
 }*/
 
 function CanvasGraphics(canvasObject, canvasWidth,canvasHeight) {
-
-	if(canvasObject==null||typeof canvasObject=='undefined'){//changed to create graphics no matter what -- will use passed in graphics instead of becoming null graphics return as a fallback
-		var canvas = cdocument.createElement('canvas');//creates the canvas from scratch if it is not defined
+	var canvas=null;
+	if(canvasObject==null||''+canvasObject=='undefined'){//changed to create graphics no matter what -- will use passed in graphics instead of becoming null graphics return as a fallback
+		canvas = document.createElement('canvas');//creates the canvas from scratch if it is not defined
 	}
-	else var canvas = canvasObject;//assumes that a proper canvas variable has been passed in
+	else
+	canvas = canvasObject;//assumes that a proper canvas variable has been passed in
 	
 	if(typeof canvasWidth!=='undefined'&&typeof canvasHeight!=='undefined'){//this will only set the canvas's graphical dimensions if both are defined -- default is automatically handled
 		canvas.width = canvasWidth;
@@ -94,10 +95,10 @@ function CanvasGraphics(canvasObject, canvasWidth,canvasHeight) {
 			else
 				this.setFont(font+" "+height);//recursion :p
 			*/
-			if(font.substring(dat.length-2,2)==="px")
-				font=font+" "+height+"px";
+			if(font.substring(font.length-2,2)==="px")
+				font=+height+"px "+font;
 			else
-				font=font.substring(0,dat.length-2)+" "+height+"px";
+				font=height+"px "+font.substring(0,font.length);
 		}
 		//if it is not defined, assumed to have full data do this
 		ctx.font = font;
@@ -200,11 +201,19 @@ function CanvasGraphics(canvasObject, canvasWidth,canvasHeight) {
 	////////////////////////////////////////////
 
 	this.drawImage = function(img, sx,sy,swidth,sheight,x,y,width,height){
+		if(""+swidth=="undefined"){//draw on point x,y
+			ctx.drawImage(img,sx,sy);
+			return;
+		}
+		if(""+x=="undefined"){//scale on point x,y
+			ctx.drawImage(img,sx,sy,swidth,sheight);
+			return;
+		}//draw image rectangle on surface from other image rectangle*/
 		ctx.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 	}
 
 	this.drawImage_Fast = function(img, sx,sy,swidth,sheight,x,y,width,height){
-		/*
+		//*
 		if(""+swidth=="undefined"){//draw on point x,y
 			ctx.drawImage(img,Math.round(sx),Math.round(sy));
 			return;
