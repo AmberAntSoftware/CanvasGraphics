@@ -85,8 +85,7 @@ function CanvasGraphics(canvasObject, canvasWidth,canvasHeight) {
 		ctx.font = font;
 	}
 	
-	//this.setCanvasSize -- did not use this name due to confusion about setting the size in HTML or the Graphics size
-	//this.setSize(width,height){ -- did not use this name due to some ambiguity about setting what
+	//sets teh canvas's internal resolution
 	this.setGraphicsSize = function(width,height){
 		canvas.width=width;
 		canvas.height=height;
@@ -139,13 +138,13 @@ function CanvasGraphics(canvasObject, canvasWidth,canvasHeight) {
 	}
 	//modified from the above
 	this.fillOval = function(ctx, cx, cy, rx, ry){
-		if(ctx.ellipse)//if ctx does not support this
-			{
-				ctx.beginPath();
-				ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2);
-				ctx.fill();
-			}
+	if(ctx.ellipse)//if ctx does not support this
+		{
+			ctx.beginPath();
+			ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI*2);
+			ctx.fill();
 		}
+	}
 	
 	/////////////////////////////////////////////
 	//Image Graphics
